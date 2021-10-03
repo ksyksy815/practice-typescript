@@ -1,9 +1,9 @@
 /* NOTES
 * Type inference
 
-Commands
+터미널 코맨드
 tsc -- init
-=> creates a ts config file "tsconfig.json"
+=> "tsconfig.json"이름을 가진 타입스크립트 설정 파일을 만듬
 
 */
 
@@ -13,36 +13,45 @@ let isPublished: boolean = true
 let x: any = 'Hello'
 let age: number
 
-// an Array that only contains numbers
+// 요소의 타입이 모두 숫자인 배열
 let ids: number[] = [1, 2, 3, 4, 5]
-// ids.push('Hello') => error
+/* 예시: 
+ids.push('Hello')
+=> ids 요소는 모두 숫자만으로 설정되었기 때문에 에러 발생
+*/
 
-// An array if you don't know what types would go in
+// 배열에 어떤 타입이 들어갈지 아직 모를 때
 let arr: any = []
 
-// Tuple
+// Tuple (튜플)
 let person: [number, string, boolean] = [1, 'String', true]
-// let person: [number, string, boolean] = [1, 'String', 'I'm not boolean'] => error
+/* 예시:
+let person: [number, string, boolean] = [1, 'String', 'I'm not boolean']
+=> 에러 발생
+*/
 
-// Tuple Array
+// Tuple Array 튜플 배열
 let employee: [number, string][]
 employee = [
   [1, 'String 1'],
   [2, 'String 2'],
   [3, 'String 3'],
 ]
-/* employee = [
+/* 예시:
+employee = [
   [1, 'String 1'],
   [2, 'String 2'],
   ['Three', 'String 3'],
-] => error
+]
+=> 에러
 */
 
-// Union: when you want to allow more than two types for a variable.
+// Union (유니언): 변수에 두 개 이상의 타입을 허용하고 싶을 때
 let order: string | number = 22
 order = '22'
 
-// Enums (numerated types): allows to define a set of named constants either numeric or string.
+// Enums (이넘. numerated types): 숫자 또는 문자열인 네임드 변수의 세트를 정의할 때 사용.
+// allows to define a set of named constants either numeric or string.
 enum Direction1 {
   Up = 1,
   Down,
@@ -50,12 +59,12 @@ enum Direction1 {
   Right
 }
 
-/*
+/* 예시 (숫자로 지정된 경우)
 console.log(Direction1.Up) <-- 1
 console.log(Direction1.Left) <-- 3
 */
 
-// Also possible to set them as strings
+// 문자열로 지정도 가능 (Also possible to set them as strings)
 enum Direction2 {
   Up = 'Up',
   Down = 'Down',
@@ -67,7 +76,7 @@ enum Direction2 {
 console.log(Direction2.Left) <-- 'Left'
 */
 
-// Objects
+// Objects 객체
 type User = {
   id: number,
   name: string
@@ -88,39 +97,42 @@ const user: {
 }
 */
 
-// Type Assertion
+// Type Assertion이란?
+// 컴파일러에게 직접적으로 나 요런 타입으로 하고 싶다라고 말하는 것
 // = explicitly telling the compiler that we want to treat an entity with different types.
 let cid: any = 1
 
-// When you want to create a value based on another value.
-// There are two ways: (1) <number> or (2) as number
+// 다른 변수에 기반하여 또 다른 변수를 만들고 싶을 때 (When you want to create a value based on another value.)
+// 방법은 두가지가 있음: (1) <number> 또는 (2) as number
 let customerId1 = <number>cid
 // customerId1 = true <-- Error. 
 
 let customerId2 = cid as number
 
-// Functions
-// Not specifying types of parameters will throw an error unless the "noImplicitAny" option in the config file is abled.
-/* Example of a function with no types for parameters:
+// Functions 함수
+// 매개변수의 타입을 지정하지 않을 경우, 타입스크립트 설정 파일에서 "noImplicitAny" 옵션이 활성화되어 있지 않은 이상 에러가 생길 것임.
+// (Not specifying types of parameters will throw an error unless the "noImplicitAny" option in the config file is abled.)
+
+/* 매개변수 타입이 지정되지 않은 함수 예시 (Example of a function with no types for parameters):
 function addNum(x, y) {
   return x + y
 }
 */
 
-// Function: when there is a return value
+// 함수: 리턴값이 있을 때when there is a return value
 function addNum (x: number, y: number): number {
   return x + y
 }
 
-// Function: when there is no return value
+// : 리턴값이 없을 때 (: void 추가)
 function log (message: string | number): void {
   console.log(message)
 }
 
 
-// Interfaces
-// Custom type, specific structure to an object or function.
-// Very similar to the custom type for an object.
+// Interfaces 인터페이스
+// 객체나 함수의 특정한 구조를 설정하는 것 (Custom type, specific structure to an object or function.)
+// 커스터마이징된 객체 타입이라고 생각하면 됨 (Very similar to the custom type for an object.)
 
 interface UserInterface  {
   id: number
@@ -134,36 +146,38 @@ const user1: UserInterface = {
 }
 
 /* type vs. interface
-=> A type can be used with primitives and unions, whereas an interface cannot.
+=>  type은 원시데이터나 유니언과 함께 사용될 수 있지만, 인터페이스는 안됨
+(A type can be used with primitives and unions, whereas an interface cannot.)
 ex) type Point = number | string
 const p1: Point = 1
 */
 
 /* Optional property
-Putting a question mark next to a property means that particular property is optional.
+프로퍼티 옆에 물음표 ?를 붙이면 있어도 되고 없어도 되는 프로퍼티가 됨.
+(Putting a question mark next to a property means that particular property is optional.)
 ex) age?: number
 */
 
-/* Making a property readonly
+/* 수정 불가능한 리드온리 프로퍼티로도 만들 수 있음 (Making a property readonly)
 ex) readonly id: number
 user1.id = 5 <-- error
 */
 
-// Using interface with functions
+// 함수와 함께 인터페이스 사용해보기
 interface MathFunc {
   (x: number, y: number): number
 }
 
 const add: MathFunc = (x: number, y: number): number => x + y
 // const add: MathFunc = (x: number, y: string): number => x + y
-// => Error because string type cannot be assigned to Type MathFunc.
+// => 에러 발생. string 타입이 MathFunc 타입에 할당될 수 없기 때문에 발생!
 
 const subtract: MathFunc = (x: number, y: number): number => x - y
 
 
 
-// Classes
-// Implemeting interface with a class
+// Classes 클래스
+// 클래스와 함게 인터페이스 적용해보기
 class Person {
   private id: number
   name: string
@@ -212,7 +226,7 @@ class Person {
 }
 */
 
-// Methods in class
+// Methods in class`
 class Character {
   id: number
   name: string
